@@ -5,60 +5,40 @@ import {
     validateFxn,
 } from './helpers';
 
-const heapSort = (array: number[]): number[] => {
-    array = createMaxHeap(array);
+import { list, getDragon, Dragon } from './data';
 
-    for (let i = array.length - 1; i > 0; i--) {
-        swapPlace(0, i, array);
-        heapify(array, 0, i);
+const findMostCommonColor = (
+    list: Dragon[],
+    myId: number,
+    degreesOfSeparation: number
+) => {
+    let queue = [myId];
+    let newQueue = [];
+
+    let seenArray = [myId];
+
+    let flag = true;
+    while (flag) {
+        const user = getDragon(list, queue.shift());
+
+        for (let i = 0; i < user.connections.length; i++) {
+            let connection = user.connection[i];
+
+            if (!seenArray.includes(connection.id)) {
+                newQueue.push(connection);
+                seenArray.push(connection);
+            }
+        }
+
+        flag = false;
     }
 
-    return array;
-};
-
-const createMaxHeap = (array) => {
-    for (let i = Math.floor(array.length / 2) - 1; i >= 0; i--) {
-        heapify(array, i, array.length);
-    }
-    return array;
-};
-
-const heapify = (array: number[], index: number, heapSize: number) => {
-    const left = 2 * index + 1;
-    const right = 2 * index + 2;
-
-    let largestValueIndex = index;
-
-    if (heapSize > left && array[largestValueIndex] < array[left]) {
-        largestValueIndex = left;
-    }
-
-    if (heapSize > right && array[largestValueIndex] < array[right]) {
-        largestValueIndex = right;
-    }
-
-    if (largestValueIndex !== index) {
-        swapPlace(index, largestValueIndex, array);
-        heapify(array, largestValueIndex, heapSize);
-    }
-};
-
-const swapPlace = (
-    index1: number,
-    index2: number,
-    array: number[]
-): number[] => {
-    const holder = array[index1];
-    array[index1] = array[index2];
-    array[index2] = holder;
-    return array;
+    return newQueue;
 };
 
 consoleStart();
 
-const nums = [4, 5, 3, 2, 1];
-
-validateFxn(heapSort(nums), [1, 2, 3, 4, 5]);
+validateFxn(findMostCommonColor(list, 30, 2), 'Oloo');
 consoleEnd();
 consoleBuffer();
 

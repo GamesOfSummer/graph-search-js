@@ -3,8 +3,9 @@
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
+    "type": "module",
     "scripts": {
-        "▶ run": "tsc src/index.ts && node src/index.js",
+        "▶ run": "tsc -t ES2016 src/index.ts src/helpers.ts && node src/index.js",
         "⬇️ install-npm-packages": "npm install",
         "___Global install NCU to run the commands below": "https://www.npmjs.com/package/npm-check-updates",
         "🔍check-npm-packages": "ncu",
