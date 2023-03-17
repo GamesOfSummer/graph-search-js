@@ -12,13 +12,12 @@ const findMostCommonColor = (
     myId: number,
     degreesOfSeparation: number
 ) => {
-    let queue = [myId];
-    let newQueue = [];
+    let queue: number[] = [myId];
+    let newQueue: number[] = [];
 
-    let seenArray = [myId];
+    let seenArray: number[] = [myId];
 
-    let flag = true;
-    while (flag) {
+    while (queue.length > 0) {
         const user: Dragon = getDragon(list, queue.shift());
 
         for (let i = 0; i < user.connections.length - 1; i++) {
@@ -27,12 +26,12 @@ const findMostCommonColor = (
             if (!seenArray.includes(connection)) {
                 newQueue.push(connection);
                 seenArray.push(connection);
+                queue.push(connection);
             }
         }
-
-        flag = false;
     }
 
+    console.log(newQueue.length);
     return newQueue;
 };
 
