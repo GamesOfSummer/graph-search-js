@@ -3,9 +3,9 @@ import {
     consoleEnd,
     consoleStart,
     validateFxn,
-} from './helpers';
+} from './helpers.js';
 
-import { list, getDragon, Dragon } from './data';
+import { list, getDragon, Dragon } from './data.js';
 
 const findMostCommonColor = (
     list: Dragon[],
@@ -19,12 +19,12 @@ const findMostCommonColor = (
 
     let flag = true;
     while (flag) {
-        const user = getDragon(list, queue.shift());
+        const user: Dragon = getDragon(list, queue.shift());
 
-        for (let i = 0; i < user.connections.length; i++) {
-            let connection = user.connection[i];
+        for (let i = 0; i < user.connections.length - 1; i++) {
+            let connection = user.connections[i];
 
-            if (!seenArray.includes(connection.id)) {
+            if (!seenArray.includes(connection)) {
                 newQueue.push(connection);
                 seenArray.push(connection);
             }
