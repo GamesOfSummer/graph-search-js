@@ -11,33 +11,58 @@ const findMostCommonColor = (
     list: Dragon[],
     myId: number,
     degreesOfSeparation: number
-) => {
+): string => {
     let queue: number[] = [myId];
-    let newQueue: number[] = [];
-
     let seenArray: number[] = [myId];
 
-    while (queue.length > 0) {
-        const user: Dragon = getDragon(list, queue.shift());
+    let newQueue: number[] = [];
 
-        for (let i = 0; i < user.connections.length - 1; i++) {
-            let connection = user.connections[i];
+    const jobs = {};
 
-            if (!seenArray.includes(connection)) {
-                newQueue.push(connection);
-                seenArray.push(connection);
-                queue.push(connection);
+    for (let j = 0; j <= degreesOfSeparation; j++) {
+        newQueue = [];
+
+        while (queue.length > 0) {
+            const user: Dragon = getDragon(list, queue.shift());
+            jobs[user.color] = jobs[user.color] ? jobs[user.color] + 1 : 1;
+
+            // cycle through user connections
+            for (let i = 0; i < user.connections.length; i++) {
+                let connectionId = user.connections[i];
+
+                if (!seenArray.includes(connectionId)) {
+                    newQueue.push(connectionId);
+                    seenArray.push(connectionId);
+                }
             }
+        }
+
+        queue = newQueue;
+    }
+
+    //process job count
+    let biggestNumber = 0;
+    let biggestJobName = '';
+
+    const jobKeys = Object.keys(jobs);
+
+    for (let i = 0; i < Object.keys(jobs).length; i++) {
+        let currentJob = jobKeys[i];
+        let currentJobCountValue = jobs[currentJob];
+
+        if (currentJobCountValue > biggestNumber) {
+            biggestJobName = currentJob;
+            biggestNumber = currentJobCountValue;
         }
     }
 
-    console.log(newQueue.length);
-    return newQueue;
+    return biggestJobName;
 };
 
 consoleStart();
 
-validateFxn(findMostCommonColor(list, 30, 2), 'Oloo');
+validateFxn(findMostCommonColor(list, 30, 2), 'Rooxo');
+validateFxn(findMostCommonColor(list, 30, 3), 'Shufflebeat');
 consoleEnd();
 consoleBuffer();
 
