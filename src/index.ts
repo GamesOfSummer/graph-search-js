@@ -40,7 +40,7 @@ const findMostCommonColor = (
         queue = newQueue;
     }
 
-    //process job count
+    //process job count !
     let biggestNumber = 0;
     let biggestJobName = '';
 
